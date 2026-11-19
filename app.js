@@ -2,9 +2,10 @@ import express from 'express';
 import axios from 'axios';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+// Keep the dynamic and fallback port assignments standard
+const PORT = process.env.PORT || 5000;
 
-// Tell Express to use EJS for templating, and serve static public files
+// Tell Express to use EJS for templating and serve static assets
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
@@ -26,7 +27,6 @@ app.get('/', (req, res) => {
 // GET: Joke Hub Endpoint
 app.get('/joke', async (req, res) => {
   try {
-    // Calling API with Axios
     const response = await axios.get('https://v2.jokeapi.dev/joke/Any?safe-mode');
     
     let jokeText = '';
@@ -59,7 +59,6 @@ app.get('/trivia', async (req, res) => {
     if (response.data.results && response.data.results.length > 0) {
       const item = response.data.results[0];
       
-      // Merge correct & incorrect answers and shuffle them
       const answers = [...item.incorrect_answers, item.correct_answer];
       answers.sort(() => Math.random() - 0.5);
 
@@ -87,10 +86,9 @@ app.get('/trivia', async (req, res) => {
   }
 });
 
-// GET: Boredom Buster Endpoint
+// GET: Boredom Buster Endpoint (Safe fallback)
 app.get('/activity', async (req, res) => {
   try {
-    // Attempt Bored API with a 3-second timeout limit
     const response = await axios.get('https://bored-api.appbrewery.com/random', { timeout: 3000 });
     
     res.render('index', { 
@@ -99,9 +97,8 @@ app.get('/activity', async (req, res) => {
       error: null 
     });
   } catch (error) {
-    console.warn("Bored API call timed out or failed. Running fallback local mock database:", error.message);
+    console.warn("Bored API call failed or timed out. Falling back to local mock activities list...");
     
-    // Pick a random backup activity from our fallback database
     const backupActivity = backupActivities[Math.floor(Math.random() * backupActivities.length)];
     
     res.render('index', { 

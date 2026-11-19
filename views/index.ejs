@@ -1,12 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun Hub</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 Fun Hub | Instant Entertainment</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Welcome to Fun Hub!</h1>
-    <p>Fun Hub is running successfully!</p>
+  <div class="hub-container">
+    <header class="hub-header">
+      <div class="logo">🎉 Fun-Hub</div>
+      <p>Your one-stop entertainment engine! Click a hub below to start.</p>
+    </header>
+
+    <!-- Navigation Menu (Calls API endpoints) -->
+    <nav class="hub-nav">
+      <a href="/joke" class="nav-btn joke-btn <%= type === 'joke' ? 'active' : '' %>">
+        <span>😆 Joke Hub</span>
+      </a>
+      <a href="/trivia" class="nav-btn trivia-btn <%= type === 'trivia' ? 'active' : '' %>">
+        <span>🧠 Trivia Hub</span>
+      </a>
+      <a href="/activity" class="nav-btn activity-btn <%= type === 'activity' ? 'active' : '' %>">
+        <span>🏃 Boredom Buster</span>
+      </a>
+    </nav>
+
+    <!-- Content Panel -->
+    <main class="display-panel">
+      <% if (error) { %>
+        <div class="alert alert-error">
+          <p>⚠️ <%= error %></p>
+        </div>
+      <% } else if (data) { %>
+
+        <!-- VIEW FOR JOKE HUB -->
+        <% if (type === 'joke') { %>
+          <div class="content-box card-joke">
+            <span class="category-badge">Category: <%= data.category %></span>
+            <p class="main-text">" <%= data.content %> "</p>
+            <a href="/joke" class="action-btn">Next Joke ➡️</a>
+          </div>
+        <% } %>
+
+        <!-- VIEW FOR TRIVIA HUB -->
+        <% if (type === 'trivia') { %>
+          <div class="content-box card-trivia">
+            <span class="category-badge"><%- data.category %> • <span class="diff"><%= data.difficulty %></span></span>
+            <h2 class="question-text"><%- data.question %></h2>
+            <div class="trivia-options">
+              <% data.all_answers.forEach((ans) => { %>
+                <button class="option-btn" onclick="checkAnswer(this, '<%= data.correct %>')"><%- ans %></button>
+              <% }); %>
+            </div>
+            <p id="trivia-feedback" class="feedback-text"></p>
+            <a href="/trivia" class="action-btn" style="margin-top: 15px;">Next Question ➡️</a>
+          </div>
+        <% } %>
+
+        <!-- VIEW FOR BOREDOM BUSTER -->
+        <% if (type === 'activity') { %>
+          <div class="content-box card-activity">
+            <span class="category-badge">Category: <%= data.type %></span>
+            <h2>Let's do this:</h2>
+            <p class="main-text">✨ <%= data.activity %></p>
+            <a href="/activity" class="action-btn">New Activity ➡️</a>
+          </div>
+        <% } %>
+
+      <% } else { %>
+        <!-- Default Landing screen before buttons are clicked -->
+        <div class="welcome-box">
+          <div class="mascot">👾</div>
+          <h2>Welcome to Fun-Hub!</h2>
+          <p>Choose any hub from the top menu to inject some entertainment into your day.</p>
+        </div>
+      <% } %>
+    </main>
+
+    <footer class="hub-footer">
+      <p>Express/Axios Capstone Project by <strong>Enosh Moktan</strong></p>
+    </footer>
+  </div>
+
+  <script>
+    // Handles validating the correct answer for the multiple-choice quiz
+    function checkAnswer(button, correctAns) {
+      const feedback = document.getElementById('trivia-feedback');
+      const allButtons = document.querySelectorAll('.option-btn');
+      
+      allButtons.forEach(btn => btn.disabled = true);
+
+      const parser = new DOMParser();
+      const decodedCorrect = parser.parseFromString(correctAns, 'text/html').body.textContent;
+      const clickedAns = button.innerText;
+
+      if (clickedAns.trim() === decodedCorrect.trim()) {
+        button.style.backgroundColor = '#10B981'; // Green (Success)
+        button.style.color = '#fff';
+        feedback.innerText = "🎉 Correct! You're a genius.";
+        feedback.style.color = '#10B981';
+      } else {
+        button.style.backgroundColor = '#EF4444'; // Red (Error)
+        button.style.color = '#fff';
+        feedback.innerText = `❌ Wrong! The correct answer was: ${decodedCorrect}`;
+        feedback.style.color = '#EF4444';
+        
+        allButtons.forEach(btn => {
+          if (btn.innerText.trim() === decodedCorrect.trim()) {
+            btn.style.backgroundColor = '#10B981';
+            btn.style.color = '#fff';
+          }
+        });
+      }
+    }
+  </script>
 </body>
 </html>
