@@ -1,0 +1,219 @@
+:root {
+  --bg: #0F111A;
+  --panel-bg: #161925;
+  --primary-accent: #6366F1;
+  --accent-neon: #06B6D4;
+  --text: #F3F4F6;
+  --text-muted: #9CA3AF;
+  --border: #24293E;
+  --green: #10B981;
+  --red: #EF4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hub-container {
+  max-width: 650px;
+  width: 100%;
+  padding: 2rem 1.5rem;
+}
+
+.hub-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hub-header .logo {
+  font-size: 2.85rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary-accent), var(--accent-neon));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+}
+
+.hub-header p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Nav tabs */
+.hub-nav {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.nav-btn {
+  flex: 1;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: transform 0.2s, background 0.2s, border 0.2s;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-accent);
+}
+
+.nav-btn.active {
+  background: linear-gradient(135deg, var(--primary-accent), #4338CA);
+  border-color: transparent;
+}
+
+/* Main Display Card area */
+.display-panel {
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-box {
+  text-align: center;
+}
+
+.welcome-box .mascot {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.welcome-box h2 {
+  font-weight: 800;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-box p {
+  color: var(--text-muted);
+}
+
+/* Badges */
+.category-badge {
+  display: inline-block;
+  background-color: var(--border);
+  color: var(--accent-neon);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.diff {
+  color: var(--primary-accent);
+}
+
+/* Inner Text Elements */
+.main-text {
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 2.5rem;
+}
+
+.question-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.action-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary-accent), var(--accent-neon));
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.85rem 1.85rem;
+  border-radius: 10px;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.action-btn:hover {
+  opacity: 0.95;
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+}
+
+/* Trivia Grid UI */
+.trivia-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.option-btn {
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.9rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: var(--primary-accent);
+  background-color: #1a1e2f;
+}
+
+.feedback-text {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* Error messages wrapper */
+.alert-error {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.hub-footer {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 480px) {
+  .hub-nav {
+    flex-direction: column;
+  }
+}
