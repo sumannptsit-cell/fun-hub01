@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const app = express();
 // Keep the dynamic and fallback port assignments standard
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5005;
 
 // Tell Express to use EJS for templating and serve static assets
 app.set('view engine', 'ejs');
