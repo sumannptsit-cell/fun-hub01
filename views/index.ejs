@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎮 Fun Hub | Instant Entertainment</title>
+  <!-- Notice the forward slash "/style.css" so it reads correctly from public directory -->
   <link rel="stylesheet" href="/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -15,7 +16,6 @@
       <p>Your one-stop entertainment engine! Click a hub below to start.</p>
     </header>
 
-    <!-- Navigation Menu (Calls API endpoints) -->
     <nav class="hub-nav">
       <a href="/joke" class="nav-btn joke-btn <%= type === 'joke' ? 'active' : '' %>">
         <span>😆 Joke Hub</span>
@@ -28,7 +28,6 @@
       </a>
     </nav>
 
-    <!-- Content Panel -->
     <main class="display-panel">
       <% if (error) { %>
         <div class="alert alert-error">
@@ -36,7 +35,7 @@
         </div>
       <% } else if (data) { %>
 
-        <!-- VIEW FOR JOKE HUB -->
+        <!-- JOKE UI -->
         <% if (type === 'joke') { %>
           <div class="content-box card-joke">
             <span class="category-badge">Category: <%= data.category %></span>
@@ -45,7 +44,7 @@
           </div>
         <% } %>
 
-        <!-- VIEW FOR TRIVIA HUB -->
+        <!-- TRIVIA UI -->
         <% if (type === 'trivia') { %>
           <div class="content-box card-trivia">
             <span class="category-badge"><%- data.category %> • <span class="diff"><%= data.difficulty %></span></span>
@@ -60,7 +59,7 @@
           </div>
         <% } %>
 
-        <!-- VIEW FOR BOREDOM BUSTER -->
+        <!-- BOREDOM BUSTER UI -->
         <% if (type === 'activity') { %>
           <div class="content-box card-activity">
             <span class="category-badge">Category: <%= data.type %></span>
@@ -71,7 +70,7 @@
         <% } %>
 
       <% } else { %>
-        <!-- Default Landing screen before buttons are clicked -->
+        <!-- Landing Screen (Shows image_44.png layout on load) -->
         <div class="welcome-box">
           <div class="mascot">👾</div>
           <h2>Welcome to Fun-Hub!</h2>
@@ -86,11 +85,9 @@
   </div>
 
   <script>
-    // Handles validating the correct answer for the multiple-choice quiz
     function checkAnswer(button, correctAns) {
       const feedback = document.getElementById('trivia-feedback');
       const allButtons = document.querySelectorAll('.option-btn');
-      
       allButtons.forEach(btn => btn.disabled = true);
 
       const parser = new DOMParser();
@@ -98,16 +95,15 @@
       const clickedAns = button.innerText;
 
       if (clickedAns.trim() === decodedCorrect.trim()) {
-        button.style.backgroundColor = '#10B981'; // Green (Success)
+        button.style.backgroundColor = '#10B981';
         button.style.color = '#fff';
         feedback.innerText = "🎉 Correct! You're a genius.";
         feedback.style.color = '#10B981';
       } else {
-        button.style.backgroundColor = '#EF4444'; // Red (Error)
+        button.style.backgroundColor = '#EF4444';
         button.style.color = '#fff';
         feedback.innerText = `❌ Wrong! The correct answer was: ${decodedCorrect}`;
         feedback.style.color = '#EF4444';
-        
         allButtons.forEach(btn => {
           if (btn.innerText.trim() === decodedCorrect.trim()) {
             btn.style.backgroundColor = '#10B981';
